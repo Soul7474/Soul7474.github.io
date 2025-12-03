@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadatos básicos del documento -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título que aparece en la pestaña del navegador -->
+    <title>Saúl Martín Sánchez - Portfolio </title>
+
+    <!-- Hoja de estilos principal del template -->
+    <link rel="stylesheet" href="templatemo-prism-flux.css">
+
+    <!-- Estilos específicos para el logo con forma de "S" y efecto neón -->
+    <style>
+        /* Contenedor del icono del logo con animación de brillo */
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: cyberGlowPulse 3s ease-in-out infinite;
+        }
+
+        /* Oculta la forma antigua del prisma original del template */
+        .prism-shape {
+            display: none !important;
+        }
+
+        /* Contenedor que dibuja la "S" del logo */
+        .logo-prism {
+            position: relative;
+            width: 28px;  /* Ancho de la S */
+            height: 42px; /* Alto de la S */
+            transform: skewX(-12deg); /* Inclinación para estilo tech */
+        }
+
+        /* Parte superior de la "S" (borde cian) */
+        .logo-prism::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 52%;
+            box-sizing: border-box;
+            border-top: 7px solid #00d4ff;
+            border-right: 7px solid #00d4ff;
+            border-radius: 14px 0 14px 0;
+            box-shadow: inset 2px 2px 5px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Parte inferior de la "S" (borde morado) */
+        .logo-prism::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 52%;
+            box-sizing: border-box;
+            border-bottom: 7px solid #9d00ff;
+            border-left: 7px solid #9d00ff;
+            border-radius: 0 14px 0 14px;
+            box-shadow: inset -2px -2px 5px rgba(157, 0, 255, 0.3);
+        }
+
+        /* Animación de latido / brillo del logo */
+        @keyframes cyberGlowPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 3px rgba(0, 212, 255, 0.6));
+            }
+            50% {
+                filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.9)) drop-shadow(0 0 4px rgba(157, 0, 255, 0.8));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pantalla de carga inicial (loader) -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <!-- Prisma animado del loader -->
+            <div class="loader-prism">
+                <div class="prism-face"></div>
+                <div class="prism-face"></div>
+                <div class="prism-face"></div>
+            </div>
+            <!-- Texto de estado de carga -->
+            <div style="color: var(--accent-purple); font-size: 18px; text-transform: uppercase; letter-spacing: 3px;">
+                Cargando Portfolio...
+            </div>
+        </div>
+    </div>
+
+    <!-- Cabecera fija con el menú de navegación -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <!-- Logo clicable que lleva a la sección de inicio -->
+            <a href="#home" class="logo">
+                <div class="logo-icon">
+                    <div class="logo-prism">
+                        <div class="prism-shape"></div>
+                    </div>
+                </div>
+                <!-- Texto del logo (nombre y apellidos) -->
+                <span class="logo-text">
+                    <span class="prism">Saúl</span>
+                    <span class="flux">Martín Sanchez</span>
+                </span>
+            </a>
+            
+            <!-- Menú principal de navegación por secciones -->
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Inicio</a></li>
+                <li><a href="#about" class="nav-link">Acerca de</a></li>
+                <li><a href="#stats" class="nav-link">Métricas</a></li>
+                <li><a href="#skills" class="nav-link">Arsenal</a></li>
+                <li><a href="#contact" class="nav-link">Contacto</a></li>
+            </ul>
+            
+            <!-- Botón hamburguesa para abrir/cerrar el menú en móvil -->
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sección HERO / portada con carrusel -->
+    <section class="hero" id="home">
+        <div class="carousel-container">
+            <!-- Contenedor donde el JS inserta las slides del carrusel -->
+            <div class="carousel" id="carousel">
+            </div>
+            
+            <!-- Botones de navegación del carrusel -->
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prevBtn">‹</button>
+                <button class="carousel-btn" id="nextBtn">›</button>
+            </div>
+            
+            <!-- Indicadores/puntos del carrusel -->
+            <div class="carousel-indicators" id="indicators">
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección "Acerca de mí" / Filosofía -->
+    <section class="philosophy-section" id="about">
+        <div class="philosophy-container">
+            <!-- Línea/elemento decorativo tipo prisma -->
+            <div class="prism-line"></div>
+            
+            <!-- Título principal de la sección about -->
+            <h2 class="philosophy-headline">
+                ¿Quién es<br>Saúl Martín Sánchez?
+            </h2>
+            
+            <!-- Párrafo de presentación personal -->
+            <p class="philosophy-subheading">
+                Soy una persona proactiva, sociable y enfocada en el área IT. Tras finalizar SMR y continuar mis estudios en ASIR, he desarrollado una base sólida en administración de sistemas y ciberseguridad, especialmente orientada al entorno Blue Team. Destaco en la implementación y configuración de sistemas, así como en el análisis y la protección de entornos digitales. Mi objetivo es crecer profesionalmente en el ámbito de la ciberseguridad, aportar soluciones efectivas y seguir desarrollándome en un sector en constante evolución.
+            </p>
+            
+            <!-- Bloque de logros / pilares principales -->
+            <div class="philosophy-pillars">
+                
+                <!-- Pilar 1: Finalista Hackathon INCIBE 2024 -->
+                <div class="pillar">
+                    <div class="pillar-icon">🔬</div>
+                    <h3 class="pillar-title">Finalista en el Hackathon de Ciberseguridad: Hackea tu futuro 2024 – INCIBE</h3>
+                    <img src="images/Diploma-Incibe.png" alt="Certificado Hackea tu Futuro" style="max-width: 100%; height: auto;">
+                </div>
+
+                <!-- Pilar 2: Ganador Hackathon INCIBE 2025 -->
+                <div class="pillar">
+                    <div class="pillar-icon">💎</div>
+                    <h3 class="pillar-title">Ganador del Hackathon de Ciberseguridad 2025 – INCIBE</h3>
+                    <img src="images/Diploma-Incibe2.png" alt="Certificado Hackathon INCIBE 2025" style="max-width: 100%; height: auto;">
+                </div>
+                
+                <!-- Pilar 3: Premio Girls4STEM -->
+                <div class="pillar">
+                    <div class="pillar-icon">∞</div>
+                    <h3 class="pillar-title">2º Premio del Jurado en Girls4STEM – Universidad de Valencia (UpSteam)</h3>
+                    <img src="images/Premio Girls4Steam.jpg" alt="Certificado Girls4STEM" style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+            
+            <!-- Contenedor para efecto de partículas de fondo -->
+            <div class="philosophy-particles" id="particles">
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Métricas / estadísticas profesionales -->
+    <section class="stats-section" id="stats">
+        <div class="section-header">
+            <h2 class="section-title">Métricas Profesionales</h2>
+            <p class="section-subtitle">
+                Una visión clara y concisa de mi progreso, experiencia y resultados en el ámbito tecnológico e informático.
+            </p>
+        </div>
+        
+        <!-- Grid de tarjetas de estadísticas -->
+        <div class="stats-grid">
+            <!-- Tarjeta 1: Escenarios técnicos completados -->
+            <div class="stat-card">
+                <div class="stat-icon">🚀</div>
+                <!-- data-target se usa para animar el número con JS -->
+                <div class="stat-number" data-target="+100">0</div>
+                <div class="stat-label">Escenarios Técnicos Completados</div>
+                <p class="stat-description">
+                    Montaje diario de servidores Windows, pruebas de servicios, despliegues y más de 100 prácticas de redes en Cisco Packet Tracer durante SMR y ASIR.
+                </p>
+            </div>
+            
+            <!-- Tarjeta 2: Años de formación -->
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-number" data-target="+3">0</div>
+                <div class="stat-label">Años de Formación Técnica</div>
+                <p class="stat-description">
+                    2 años en SMR y actualmente cursando 1º de ASIR, con práctica constante en sistemas, y ciberseguridad defensiva.
+                </p>
+            </div>
+            
+            <!-- Tarjeta 3: Premios -->
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">Premios en Retos Tecnológicos</div>
+                <p class="stat-description">
+                    Reconocido en hackathones de ciberseguridad de INCIBE, Girls4STEM (Universidad de Valencia) y otras competiciones de ámbito académico y profesional.
+                </p>
+            </div>
+            
+            <!-- Tarjeta 4: Horas en labs de seguridad -->
+            <div class="stat-card">
+                <div class="stat-icon">💎</div>
+                <div class="stat-number" data-target="+80H">0</div>
+                <div class="stat-label">En Laboratorios de Seguridad</div>
+                <p class="stat-description">
+                    Laboratorios en DockerLabs, análisis de tráfico con Wireshark, uso inicial de Autopsy y prácticas orientadas a comprender vulnerabilidades y mejorar la defensa de sistemas.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de habilidades / Arsenal técnico -->
+    <section class="skills-section" id="skills">
+        <div class="skills-container">
+            <div class="section-header">
+                <h2 class="section-title">Arsenal Tecnico</h2>
+                <p class="section-subtitle">Dominio de tecnologías y frameworks de vanguardia</p>
+            </div>
+            
+            <!-- Pestañas para filtrar categorías de skills -->
+            <div class="skill-categories">
+                <div class="category-tab active" data-category="Todas">Todas las habilidades</div>
+                <div class="category-tab" data-category="Sistemas Operativos">Sistemas Operativos</div>
+                <div class="category-tab" data-category="IA">IA's</div>
+                <div class="category-tab" data-category="Ciberseguridad">Ciberseguridad</div>
+                <div class="category-tab" data-category="Idiomas">Idiomas</div>
+            </div>
+
+            <!-- Grid hexagonal donde el JS pintará las habilidades -->
+            <div class="skills-hexagon-grid" id="skillsGrid">
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de contacto -->
+    <section class="contact-section" id="contact">
+        <div class="section-header">
+            <h2 class="section-title">Contacta Conmigo</h2>
+            <p class="section-subtitle">Listo para transformar retos en soluciones.</p>
+        </div>
+        
+        <div class="contact-container">
+            <!-- Información de contacto con enlaces directos -->
+            <div class="contact-info">
+                <!-- Enlace a Google Maps con ubicación -->
+                <a href="https://maps.app.goo.gl/Zk9he8iEAHGEbPJo7" target="_blank" class="info-item">
+                    <div class="info-icon">📍</div>
+                    <div class="info-text">
+                        <h4>Localización</h4>
+                        <p>España, Valencia, Valencia</p>
+                    </div>
+                </a>
+                
+                <!-- Enlace de correo -->
+                <a href="mailto:saulmartin.snz@gmail.com" class="info-item">
+                    <div class="info-icon">📧</div>
+                    <div class="info-text">
+                        <h4>Correo</h4>
+                        <p>saulmartin.snz@gmail.com</p>
+                    </div>
+                </a>
+                
+                <!-- Enlace de teléfono (clicable en móvil) -->
+                <a href="tel:+15551234567" class="info-item">
+                    <div class="info-icon">📱</div>
+                    <div class="info-text">
+                        <h4>Teléfono</h4>
+                        <p>+34 680 607 627</p>
+                    </div>
+                </a>
+                
+                <!-- Enlace a Calendly para reservar reunión -->
+                <a href="https://calendly.com" target="_blank" class="info-item">
+                    <div class="info-icon">📅</div>
+                    <div class="info-text">
+                        <h4>Planeemos una reunión</h4>
+                        <p>Reserva una consulta</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Formulario de contacto que se enviará por JS o backend -->
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Asunto</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Enviar Mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Pie de página de todo el sitio -->
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- Bloque de marca personal en el footer -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="logo-icon">
+                        <div class="logo-prism">
+                            <div class="prism-shape"></div>
+                        </div>
+                    </div>
+                    <span class="logo-text">
+                        <span class="prism">Saúl</span>
+                        <span class="flux">Martín Sánchez</span>
+                    </span>
+                </div>
+                <!-- Descripción corta de tu enfoque profesional -->
+                <p class="footer-description">
+                    Transformando retos complejos en soluciones brillantes mediante la combinación de tecnología, creatividad y análisis.
+                </p>
+
+                <!-- Iconos de redes sociales -->
+                <div class="footer-social">
+                    <a href="https://facebook.com" target="_blank" class="social-icon">
+                        <img src="images/Facebook-Logo.png" alt="Facebook" width="24" height="24">
+                    </a>
+                    <a href="https://x.com" target="_blank" class="social-icon">
+                        <img src="images/X-Logo.png" alt="Twitter" width="24" height="24">
+                    </a>
+                    <a href="https://www.linkedin.com/in/sa%C3%BAl-mart%C3%ADn-s%C3%A1nchez-b07816343/" target="_blank" class="social-icon">
+                        <img src="images/LinkedIn-Logo.png" alt="LinkedIn" width="24" height="24">
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-icon">
+                        <img src="images/Instagram-icon.png" alt="Instagram" width="24" height="24">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Columna de enlaces de conocimientos/skills -->
+            <div class="footer-section">
+                <h4>Conocimientos</h4>
+                <div class="footer-links">
+                    <a href="#">Sistemas Operativos</a>
+                    <a href="#">IA's</a>
+                    <a href="#">Ciberseguridad</a>
+                    <a href="#">Idiomas</a>
+                </div>
+            </div>
+
+            <!-- Columna de enlaces sobre ti -->
+            <div class="footer-section">
+                <h4>Sobre mí</h4>
+                <div class="footer-links">
+                    <a href="#">Mi Historia</a>
+                    <a href="#">Formación</a>
+                    <a href="#">Premios y Logros</a>
+                    <a href="#">A que aspiro</a>
+                </div>
+            </div>
+
+            <!-- Columna de enlaces de contacto rápidos -->
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <div class="footer-links">
+                    <a href="mailto:saulmartin.snz@gmail.com">Email</a>
+                    <a href="https://www.linkedin.com/in/sa%C3%BAl-mart%C3%ADn-s%C3%A1nchez-b07816343/" target="_blank">LinkedIn</a>
+                    <a href="#">Calendly</a>
+                    <a href="#">Ubicación</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Línea inferior de copyright -->
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2026 Saúl Martín Sánchez. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script de traducciones y textos -->
+    <script src="translations.js"></script>
+
+    <!-- Script principal del template (carrusel, menú, animaciones, etc.) -->
+    <script src="templatemo-prism-scripts.js"></script>
+</body>
+</html>
