@@ -1,0 +1,414 @@
+/* Each chapter has its own movement; the shared acid/cyan frame ties them together. */
+.chapter-gate:not([data-gate="projects"]) .gate-beam {
+  opacity: 0.45;
+}
+
+/* 03 — the sides part while the title travels upward. */
+.chapter-gate[data-gate="about"] .gate-shutter,
+.chapter-gate[data-gate="contact"] .gate-shutter {
+  top: 0;
+  bottom: auto;
+  height: 100%;
+  width: 56%;
+}
+.chapter-gate[data-gate="about"] .gate-shutter-top {
+  left: -1%;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    94% 27%,
+    100% 33%,
+    100% 72%,
+    92% 79%,
+    96% 100%,
+    0 100%
+  );
+}
+.chapter-gate[data-gate="about"] .gate-shutter-bottom {
+  left: auto;
+  right: -1%;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    3% 100%,
+    8% 74%,
+    0 68%,
+    0 31%,
+    6% 24%
+  );
+}
+.has-scroll-timelines .chapter-gate[data-gate="about"] .gate-shutter-top {
+  animation-name: about-side-left;
+}
+.has-scroll-timelines .chapter-gate[data-gate="about"] .gate-shutter-bottom {
+  animation-name: about-side-right;
+}
+.has-scroll-timelines .chapter-gate[data-gate="about"] .gate-copy {
+  animation-name: about-title-lift;
+}
+@keyframes about-side-left {
+  0%,
+  12% {
+    transform: translate3d(0, 0, 0);
+  }
+  45%,
+  100% {
+    transform: translate3d(-115%, 0, 0);
+  }
+}
+@keyframes about-side-right {
+  0%,
+  12% {
+    transform: translate3d(0, 0, 0);
+  }
+  45%,
+  100% {
+    transform: translate3d(115%, 0, 0);
+  }
+}
+@keyframes about-title-lift {
+  from {
+    transform: translate3d(0, calc(-50% + 42px), 0);
+  }
+  to {
+    transform: translate3d(0, calc(-50% - 18px), 0);
+  }
+}
+
+/* 04 — a central optical zoom, framed like a credential being brought into focus. */
+.chapter-gate[data-gate="certifications"] .gate-shutter-top {
+  transform-origin: 50% 0;
+}
+.chapter-gate[data-gate="certifications"] .gate-shutter-bottom {
+  transform-origin: 50% 100%;
+}
+.chapter-gate[data-gate="certifications"] .gate-copy {
+  transform-origin: 50% 50%;
+}
+.chapter-gate[data-gate="certifications"] .gate-copy::before {
+  content: "";
+  position: absolute;
+  inset: -16px -20px;
+  border-block: 1px solid rgba(var(--gate-rgb), 0.22);
+  transform: skewX(-4deg);
+  pointer-events: none;
+}
+.has-scroll-timelines
+  .chapter-gate[data-gate="certifications"]
+  .gate-shutter-top,
+.has-scroll-timelines
+  .chapter-gate[data-gate="certifications"]
+  .gate-shutter-bottom {
+  animation-name: certification-aperture;
+}
+.has-scroll-timelines .chapter-gate[data-gate="certifications"] .gate-copy {
+  animation-name: certification-focus;
+}
+@keyframes certification-aperture {
+  0%,
+  12% {
+    transform: scaleY(1);
+  }
+  45%,
+  100% {
+    transform: scaleY(0);
+  }
+}
+@keyframes certification-focus {
+  0% {
+    transform: translate3d(0, -50%, 0) scale(0.76);
+  }
+  45%,
+  70% {
+    transform: translate3d(0, -50%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0, -50%, 0) scale(1.04);
+  }
+}
+
+/* 05 — opposing diagonal cuts and a poster that settles into the frame. */
+.chapter-gate[data-gate="recognition"] .gate-copy {
+  transform-origin: 0 50%;
+}
+.has-scroll-timelines .chapter-gate[data-gate="recognition"] .gate-shutter-top {
+  animation-name: recognition-cut-up;
+}
+.has-scroll-timelines
+  .chapter-gate[data-gate="recognition"]
+  .gate-shutter-bottom {
+  animation-name: recognition-cut-down;
+}
+.has-scroll-timelines .chapter-gate[data-gate="recognition"] .gate-copy {
+  animation-name: recognition-poster;
+}
+@keyframes recognition-cut-up {
+  0%,
+  12% {
+    transform: translate3d(0, 0, 0);
+  }
+  45%,
+  100% {
+    transform: translate3d(-110%, -110%, 0);
+  }
+}
+@keyframes recognition-cut-down {
+  0%,
+  12% {
+    transform: translate3d(0, 0, 0);
+  }
+  45%,
+  100% {
+    transform: translate3d(110%, 110%, 0);
+  }
+}
+@keyframes recognition-poster {
+  from {
+    transform: translate3d(0, -50%, 0) rotate(-4deg) scale(0.98);
+  }
+  to {
+    transform: translate3d(0, -50%, 0) rotate(4deg) scale(1.02);
+  }
+}
+
+/* 06 — the terminal unfolds in perspective instead of moving sideways. */
+.chapter-gate[data-gate="skills"] .gate-shutter {
+  backface-visibility: hidden;
+}
+.chapter-gate[data-gate="skills"] .gate-shutter-top {
+  transform-origin: 50% 0;
+}
+.chapter-gate[data-gate="skills"] .gate-shutter-bottom {
+  transform-origin: 50% 100%;
+}
+.chapter-gate[data-gate="skills"] .gate-copy {
+  transform-origin: 50% 60%;
+  backface-visibility: hidden;
+}
+.has-scroll-timelines .chapter-gate[data-gate="skills"] .gate-shutter-top {
+  animation-name: skills-hinge-up;
+}
+.has-scroll-timelines .chapter-gate[data-gate="skills"] .gate-shutter-bottom {
+  animation-name: skills-hinge-down;
+}
+.has-scroll-timelines .chapter-gate[data-gate="skills"] .gate-copy {
+  animation-name: skills-unfold;
+}
+@keyframes skills-hinge-up {
+  0%,
+  12% {
+    transform: perspective(700px) rotateX(0deg);
+  }
+  45%,
+  100% {
+    transform: perspective(700px) rotateX(-92deg);
+  }
+}
+@keyframes skills-hinge-down {
+  0%,
+  12% {
+    transform: perspective(700px) rotateX(0deg);
+  }
+  45%,
+  100% {
+    transform: perspective(700px) rotateX(92deg);
+  }
+}
+@keyframes skills-unfold {
+  0% {
+    transform: perspective(850px) translate3d(0, -50%, 0) rotateX(38deg);
+  }
+  45%,
+  70% {
+    transform: perspective(850px) translate3d(0, -50%, 0) rotateX(0deg);
+  }
+  100% {
+    transform: perspective(850px) translate3d(0, -50%, 0) rotateX(-12deg);
+  }
+}
+
+/* 07 — a centered invitation, revealed by a widening slit. */
+.chapter-gate[data-gate="contact"] .gate-shutter {
+  width: 51%;
+}
+.chapter-gate[data-gate="contact"] .gate-shutter-top {
+  left: -1%;
+  transform-origin: 0 50%;
+  clip-path: polygon(0 0, 100% 0, 95% 43%, 100% 49%, 100% 100%, 0 100%);
+}
+.chapter-gate[data-gate="contact"] .gate-shutter-bottom {
+  left: auto;
+  right: -1%;
+  transform-origin: 100% 50%;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 5% 57%, 0 51%);
+}
+.chapter-gate[data-gate="contact"] .gate-copy {
+  left: 20px;
+  right: 20px;
+  text-align: center;
+  transform-origin: 50% 50%;
+}
+.has-scroll-timelines .chapter-gate[data-gate="contact"] .gate-shutter-top,
+.has-scroll-timelines .chapter-gate[data-gate="contact"] .gate-shutter-bottom {
+  animation-name: contact-slit;
+}
+.has-scroll-timelines .chapter-gate[data-gate="contact"] .gate-copy {
+  animation-name: contact-center;
+}
+@keyframes contact-slit {
+  0%,
+  12% {
+    transform: scaleX(1);
+  }
+  45%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+@keyframes contact-center {
+  from {
+    transform: translate3d(0, -50%, 0) scale(0.9);
+  }
+  to {
+    transform: translate3d(0, -50%, 0) scale(1.04);
+  }
+}
+
+/* The reading headings share a tempo, not a repeated gesture. Keep the observed
+   parent unmasked; only the title itself performs the entrance. */
+.chapter-zone .section-heading.reveal-pending {
+  transform: none;
+  transition: opacity 0.4s ease;
+}
+.chapter-zone[data-zone="projects"] .section-heading.reveal-pending {
+  transform: translateX(-18px);
+  transition:
+    opacity 0.5s,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.chapter-zone[data-zone="projects"] .section-heading.reveal-pending.is-visible {
+  transform: none;
+}
+.chapter-zone[data-zone="experience"] .section-heading.is-visible h2 {
+  animation: heading-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.chapter-zone[data-zone="projects"] .section-heading.is-visible h2 {
+  animation: chapter-title-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.chapter-zone[data-zone="certifications"] .section-heading.is-visible h2 {
+  animation: heading-focus 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 40% 50%;
+}
+.chapter-zone[data-zone="recognition"] .section-heading.is-visible h2 {
+  animation: heading-poster 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 0 100%;
+}
+.chapter-zone[data-zone="skills"] .section-heading.is-visible h2 {
+  animation: heading-hinge 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 50% 100%;
+}
+.about-grid > div.reveal-pending,
+.contact-grid > div.reveal-pending {
+  transform: none;
+}
+.about-grid > div.is-visible #about-title {
+  animation: heading-slit 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.contact-grid > div.is-visible #contact-title {
+  animation: heading-invite 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 0 70%;
+}
+@keyframes heading-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes heading-focus {
+  from {
+    opacity: 0;
+    transform: perspective(700px) translate3d(0, 0, -80px) scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes heading-poster {
+  from {
+    opacity: 0;
+    transform: translate3d(-15px, 18px, 0) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes heading-hinge {
+  from {
+    opacity: 0;
+    transform: perspective(600px) translate3d(0, 14px, 0) rotateX(-35deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes heading-slit {
+  from {
+    opacity: 0.2;
+    clip-path: inset(47% 0 47% 0);
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+@keyframes heading-invite {
+  from {
+    opacity: 0;
+    transform: scale(0.84) rotate(-2deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Paused, reduced-motion and static documents expose every title immediately. */
+html.motion-paused .chapter-zone h2 {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+html.motion-paused .chapter-zone .reveal-pending {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-zone h2,
+  .chapter-zone .reveal-pending {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+@media (max-width: 760px) {
+  .chapter-gate[data-gate="certifications"] .gate-copy::before {
+    inset: -12px -8px;
+  }
+  .chapter-gate[data-gate="contact"] .gate-copy {
+    left: 16px;
+    right: 16px;
+  }
+}
