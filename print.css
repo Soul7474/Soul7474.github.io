@@ -1,0 +1,615 @@
+/* ==========================================================
+   SM. // VERSIÓN IMPRIMIBLE — el portfolio se convierte en CV
+   ========================================================== */
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+}
+html,
+body {
+  background: #fff !important;
+  color: #111 !important;
+  filter: none !important;
+}
+html::before,
+html::after,
+body::before,
+body::after {
+  display: none !important;
+}
+* {
+  animation: none !important;
+  transition: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Fuera todo lo decorativo o interactivo */
+.urban-scene,
+#cyberField,
+.chapter-rail,
+.reading-progress,
+.motion-toggle,
+.skip-link,
+.menu-toggle,
+.nav-menu,
+.focus-panel,
+.scroll-cue,
+.edge-ribbon,
+.evidence-strip,
+.chapter-gate,
+.zone-art,
+.filter-bar,
+.project-image,
+.project-link,
+.image-open,
+.hero-actions,
+.hero-edition,
+.title-cursor,
+.term-launch,
+.term-dialog,
+.reticle,
+.boot,
+.toast-host,
+.skill-graph,
+.xp-rail,
+.xp-node,
+.scan-wrap,
+.holo,
+.award-preview,
+.recognition-icon,
+.certificate-link,
+.credential-symbol,
+.contact-actions,
+.copy-email,
+.contact-arrow,
+.contact-location,
+.back-top,
+.journey-next,
+.project-footnote,
+.detail-dialog,
+.credential-syllabus summary span,
+.experience-content summary span,
+.live-clock,
+.arrow-icon {
+  display: none !important;
+}
+
+/* Cabecera de CV */
+.site-header {
+  position: static !important;
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+}
+.site-header .nav {
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+.brand {
+  color: #111 !important;
+}
+.brand-mark {
+  color: #111 !important;
+}
+.brand-mark span {
+  color: #6b7a00 !important;
+}
+.brand-name {
+  display: none !important;
+}
+.container {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+main,
+section,
+.chapter-zone,
+.about-section,
+.skills-section,
+.contact-section,
+.section {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+  color: #111 !important;
+  overflow: visible !important;
+}
+.reveal-pending,
+.reveal-pending.is-visible,
+.hero-copy > *,
+[style*="opacity"] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Hero → cabecera del CV */
+.hero {
+  display: block !important;
+  min-height: 0 !important;
+  padding: 0 0 10px !important;
+  border-bottom: 2px solid #111 !important;
+  margin-bottom: 14px !important;
+}
+.hero .eyebrow,
+.hero-greeting {
+  color: #555 !important;
+  font-size: 9pt !important;
+  margin: 0 0 4px !important;
+}
+.status-dot {
+  display: none !important;
+}
+#hero-title {
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+.hero-first-name,
+.hero-family-name {
+  display: inline !important;
+  color: #111 !important;
+  font-size: 30pt !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.hero-first-name::before,
+.hero-first-name::after {
+  display: none !important;
+}
+.hero-lead {
+  font-size: 12pt !important;
+  margin: 6px 0 !important;
+  padding-left: 8px !important;
+  border-left: 3px solid #c8d400 !important;
+  color: #111 !important;
+}
+.hero-description {
+  font-size: 10pt !important;
+  color: #333 !important;
+  max-width: none !important;
+  margin: 0 0 6px !important;
+}
+.hero-location {
+  font-size: 9pt !important;
+  color: #555 !important;
+  margin: 0 !important;
+}
+.print-contact {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin-top: 6px;
+  font-size: 9.5pt;
+  color: #111;
+}
+.print-contact b {
+  font-weight: 600;
+  color: #555;
+  margin-right: 4px;
+}
+
+/* Títulos de sección */
+.section-heading {
+  display: block !important;
+  margin: 16px 0 8px !important;
+  border-bottom: 1px solid #bbb !important;
+  padding-bottom: 4px !important;
+}
+.section-intro {
+  display: none !important;
+}
+.eyebrow {
+  color: #6b7a00 !important;
+  font-size: 8pt !important;
+  margin: 0 !important;
+}
+.eyebrow span {
+  background: none !important;
+  color: #6b7a00 !important;
+  padding: 0 !important;
+}
+h2,
+.contact-grid h2 {
+  color: #111 !important;
+  font-size: 16pt !important;
+  line-height: 1.1 !important;
+  margin: 2px 0 0 !important;
+  white-space: normal !important;
+}
+h2 br {
+  display: none;
+}
+h2 .muted {
+  color: #666 !important;
+}
+h2 .muted::before {
+  content: " ";
+}
+h3 {
+  color: #111 !important;
+}
+p,
+li,
+span,
+strong,
+time {
+  color: inherit;
+}
+a {
+  color: #111 !important;
+  text-decoration: none !important;
+}
+
+/* Experiencia */
+.experience-list {
+  border: 0 !important;
+}
+.experience-card {
+  display: grid !important;
+  grid-template-columns: 38mm 1fr !important;
+  gap: 6mm !important;
+  padding: 6px 0 10px !important;
+  border: 0 !important;
+  border-bottom: 1px solid #ddd !important;
+  background: none !important;
+  break-inside: avoid;
+}
+.experience-date,
+.experience-context,
+.experience-location {
+  color: #555 !important;
+  font-size: 8.5pt !important;
+  margin: 0 0 2px !important;
+}
+.experience-company > a {
+  font-size: 13pt !important;
+  font-weight: 700 !important;
+  color: #111 !important;
+  margin: 2px 0 !important;
+}
+.experience-content h3 {
+  font-size: 11.5pt !important;
+  margin: 0 0 3px !important;
+}
+.experience-content p,
+.experience-points li {
+  font-size: 9.5pt !important;
+  color: #333 !important;
+  line-height: 1.4 !important;
+}
+.experience-content details,
+.credential-syllabus {
+  border: 0 !important;
+  margin: 2px 0 0 !important;
+  padding: 0 !important;
+}
+.experience-content summary,
+.credential-syllabus summary {
+  display: none !important;
+}
+.experience-points {
+  margin: 2px 0 0 !important;
+  padding-left: 14px !important;
+}
+.experience-points li {
+  list-style: disc !important;
+  padding: 0 !important;
+  margin: 0 0 2px !important;
+}
+.experience-points li::before {
+  display: none !important;
+}
+.tags {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 3px 5px !important;
+  margin: 4px 0 !important;
+  padding: 0 !important;
+}
+.tags li {
+  border: 1px solid #bbb !important;
+  background: none !important;
+  color: #333 !important;
+  font-size: 7.5pt !important;
+  padding: 1px 5px !important;
+}
+
+/* Proyectos en lista compacta */
+.project-grid {
+  display: block !important;
+}
+.project-card {
+  display: block !important;
+  border: 0 !important;
+  border-bottom: 1px solid #ddd !important;
+  background: none !important;
+  padding: 5px 0 !important;
+  margin: 0 !important;
+  break-inside: avoid;
+  transform: none !important;
+}
+.project-content {
+  padding: 0 !important;
+}
+.project-meta,
+.project-distinction {
+  font-size: 8pt !important;
+  color: #555 !important;
+  margin: 0 !important;
+}
+.project-card h3 {
+  font-size: 11pt !important;
+  margin: 2px 0 !important;
+}
+.project-card h3 span {
+  color: #111 !important;
+}
+.project-card h3 span::after {
+  content: " ";
+}
+.project-content > p {
+  font-size: 9.5pt !important;
+  color: #333 !important;
+  margin: 0 !important;
+}
+
+/* Sobre mí */
+.about-grid {
+  display: block !important;
+}
+.about-copy p {
+  font-size: 9.5pt !important;
+  color: #333 !important;
+  margin: 0 0 4px !important;
+}
+.about-grid .text-link {
+  display: none !important;
+}
+.journey {
+  display: flex !important;
+  gap: 10mm;
+  margin-top: 6px !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+.journey-label,
+.journey-marker,
+.journey-abbr {
+  display: none !important;
+}
+.journey-step {
+  padding: 0 !important;
+  border: 0 !important;
+}
+.journey-step h3 {
+  font-size: 10pt !important;
+  margin: 0 !important;
+}
+.journey-step h3 br {
+  display: none;
+}
+.journey-step p {
+  font-size: 9pt !important;
+  color: #444 !important;
+  margin: 0 !important;
+}
+
+/* Certificaciones */
+.credential-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 6mm !important;
+}
+.credential-card {
+  border: 1px solid #ccc !important;
+  background: none !important;
+  padding: 8px !important;
+  transform: none !important;
+  break-inside: avoid;
+}
+.credential-card::before,
+.credential-card::after {
+  display: none !important;
+}
+.credential-top {
+  margin: 0 !important;
+}
+.credential-number,
+.credential-area,
+.credential-meta,
+.credential-issuer {
+  font-size: 8pt !important;
+  color: #555 !important;
+  margin: 0 !important;
+}
+.credential-card h3 {
+  font-size: 10.5pt !important;
+  margin: 2px 0 !important;
+}
+.credential-description,
+.credential-syllabus li {
+  font-size: 8.5pt !important;
+  color: #333 !important;
+}
+.credential-syllabus ul {
+  padding-left: 12px !important;
+  margin: 2px 0 !important;
+}
+
+/* Reconocimientos */
+.recognition-list {
+  border: 0 !important;
+}
+.recognition-row {
+  display: block !important;
+  padding: 4px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid #ddd !important;
+  background: none !important;
+  break-inside: avoid;
+}
+.recognition-body {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  align-items: baseline;
+}
+.recognition-type {
+  font-size: 8pt !important;
+  color: #6b7a00 !important;
+  order: 3;
+}
+.recognition-body strong {
+  font-size: 10.5pt !important;
+  color: #111 !important;
+}
+.recognition-body > span:last-child {
+  font-size: 9pt !important;
+  color: #444 !important;
+}
+
+/* Conocimientos */
+.skills-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 6mm !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 4px 0 0 !important;
+}
+.skill-block {
+  border: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+.skill-number,
+.skill-block > p {
+  display: none !important;
+}
+.skill-block h3 {
+  font-size: 10.5pt !important;
+  margin: 0 0 2px !important;
+}
+.skill-block ul {
+  font-size: 9pt !important;
+  line-height: 1.5 !important;
+  color: #333 !important;
+}
+.skill-block li::before {
+  content: "·" !important;
+  color: #6b7a00 !important;
+  margin-right: 6px !important;
+}
+
+/* Contacto (cierre) */
+#contact {
+  break-inside: avoid;
+}
+.contact-top {
+  margin: 14px 0 4px !important;
+  border-bottom: 1px solid #bbb !important;
+}
+.contact-grid {
+  display: block !important;
+}
+.contact-grid h2 > span {
+  color: #111 !important;
+  transform: none !important;
+}
+.contact-grid > div > p {
+  font-size: 9.5pt !important;
+  color: #333 !important;
+  max-width: none !important;
+  margin: 2px 0 6px !important;
+}
+.contact-links {
+  display: flex !important;
+  gap: 14mm !important;
+  border: 0 !important;
+  background: none !important;
+  padding: 0 !important;
+}
+.contact-links a {
+  display: block !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+.contact-links .mono {
+  font-size: 7.5pt !important;
+  color: #555 !important;
+}
+.contact-links strong {
+  font-size: 10pt !important;
+  color: #111 !important;
+}
+
+.site-footer {
+  border-top: 1px solid #bbb !important;
+  margin-top: 12px !important;
+  padding: 6px 0 0 !important;
+  font-size: 8pt !important;
+  color: #666 !important;
+}
+.site-footer .brand-mark {
+  display: none !important;
+}
+.site-footer p::after {
+  content: " · saulmartin.com";
+}
+
+/* Ajustes finos */
+[data-chapter]::before,
+[data-chapter]::after,
+.section::after,
+.clock-divider {
+  display: none !important;
+}
+.recognition-row {
+  min-height: 0 !important;
+  height: auto !important;
+  grid-template-columns: 1fr !important;
+}
+.experience-points strong,
+.about-copy strong,
+.recognition-body strong {
+  color: #111 !important;
+  font-weight: 600 !important;
+}
+.about-grid > div,
+.about-section,
+.journey {
+  border: 0 !important;
+}
+.contact-links {
+  flex-wrap: wrap !important;
+  gap: 4px 12mm !important;
+}
+.contact-links strong {
+  white-space: nowrap !important;
+}
+.contact-links a[href*="linkedin"] {
+  display: none !important;
+}
+.site-footer {
+  display: none !important;
+}
+.about-copy {
+  margin-top: 4px !important;
+}
+.project-card h3,
+.lead-project h3 {
+  font-size: 11pt !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0 !important;
+}
+.section-heading {
+  margin-top: 12px !important;
+}

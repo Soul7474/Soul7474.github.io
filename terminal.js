@@ -131,6 +131,9 @@
         print(
           '<span class="t-muted">Tip: ↑/↓ historial · Tab autocompleta · Esc cierra.</span>',
         );
+        print(
+          '<span class="t-muted">Psst… hay un comando secreto. Pista: el otro equipo. 👀</span>',
+        );
       },
     },
     whoami: {
@@ -287,6 +290,24 @@
       desc: "",
       hidden: true,
       run: () => print('<span class="t-pink">rm: operación no permitida. Los backups están en Acronis. 😎</span>'),
+    },
+    cv: {
+      desc: "descarga mi CV en PDF",
+      run: () => {
+        print('<span class="t-ok">→ compilando CV desde el portfolio…</span>');
+        setTimeout(() => {
+          close();
+          window.SM?.printCV ? window.SM.printCV() : window.print();
+        }, reduced.matches ? 0 : 500);
+      },
+    },
+    redteam: {
+      desc: "",
+      hidden: true,
+      run: () => {
+        const on = window.SM?.toggleRedTeam?.();
+        print(on ? '<span class="t-pink">☠ Modo Red Team activado. Cambiando de bando…</span>' : '<span class="t-cyan">🛡 Vuelta al Blue Team.</span>');
+      },
     },
     linkedin: {
       desc: "abre mi LinkedIn",
