@@ -1,0 +1,7 @@
+# Hola, hacker. Si has encontrado algo, cuéntamelo.
+# Divulgación responsable: sin ruido, sin daños, con buena fe.
+
+Contact: mailto:saulmartin.snz@gmail.com
+Expires: 2027-11-17T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://saulmartin.com/.well-known/security.txt
