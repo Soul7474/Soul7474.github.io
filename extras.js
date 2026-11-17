@@ -3,8 +3,7 @@
    1. Mapa de conocimientos (grafo de red interactivo)
    2. Línea de tiempo en la experiencia
    3. Logros desbloqueables
-   4. CV imprimible / PDF
-   5. Modo Red Team (código Konami o comando "redteam")
+   4. Modo Red Team (código Konami o comando "redteam")
    ========================================================== */
 (() => {
   "use strict";
@@ -343,8 +342,7 @@
         <pattern id="gGrid" width="28" height="28" patternUnits="userSpaceOnUse">
           <path d="M28 0H0V28" fill="none" stroke="#34edff" stroke-opacity=".06"/>
         </pattern>
-        <radialGradient id="gCore"><stop offset="0" stop-color="#f1ff28" stop-opacity=".35"/><stop offset="1" stop-color="#f1ff28" stop-opacity="0"/></radialGradient>
-        <filter id="gGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+        <radialGradient id="gCore"><stop offset="0" stop-color="#f1ff28" stop-opacity=".35"/><stop offset="1" stop-color="#f1ff28" stop-opacity="0"/></radialGradient>`;
       svg.append(defs, svgEl("rect", { width: W, height: H, fill: "url(#gGrid)" }));
       svg.append(svgEl("circle", { cx: W / 2, cy: H / 2, r: Math.min(W, H) * 0.42, class: "graph-ring" }));
       svg.append(svgEl("circle", { cx: W / 2, cy: H / 2, r: Math.min(W, H) * 0.24, class: "graph-ring inner" }));
@@ -367,7 +365,8 @@
           g.append(t);
         } else {
           g.append(svgEl("circle", { r: n.type === "cat" ? 18 : 10, class: "hit" }));
-          g.append(svgEl("circle", { r: n.type === "cat" ? 8 : 4, class: "dot", filter: "url(#gGlow)" }));
+          g.append(svgEl("circle", { r: n.type === "cat" ? 14 : 7, class: "glow" }));
+          g.append(svgEl("circle", { r: n.type === "cat" ? 8 : 4, class: "dot" }));
           const side = n.side || "mid";
           const isCat = n.type === "cat";
           const t = svgEl("text", {
@@ -392,12 +391,13 @@
       svg.addEventListener("click", () => focusNode(null));
       stage.append(svg);
       packets = [];
-      for (let i = 0; i < (compact ? 5 : 9); i++) {
-        const c = svgEl("circle", { r: 2.2, class: "g-packet" });
+      for (let i = 0; i < (compact ? 4 : 7); i++) {
+        const c = svgEl("circle", { r: 2.4, cx: 0, cy: 0, class: "g-packet" });
         gPackets.append(c);
         packets.push(newPacket(c));
       }
       intro = 0;
+      settled = false;
       draw(performance.now(), true);
     }
 
@@ -405,7 +405,8 @@
       const node = from || model.byId.get("core");
       const e = node.links[(Math.random() * node.links.length) | 0];
       const to = e.a === node ? e.b : e.a;
-      return { el, from: node, to, t: 0, dur: 900 + Math.random() * 900 };
+      el.setAttribute("class", `g-packet tone-${to.tone}`);
+      return { el, from: node, to, t: 0, dur: 1100 + Math.random() * 900 };
     }
 
     let focused = null;
@@ -440,18 +441,15 @@
     }
 
     const ease = (t) => 1 - Math.pow(1 - t, 3);
-    function draw(now, still) {
-      const t = now / 1000;
-      const moving = fxOn() && !still;
-      if (moving && intro < 1) intro = Math.min(1, intro + 0.018);
-      if (!fxOn()) intro = 1;
-      const k = ease(intro);
+    // Rendimiento: los nodos solo se mueven durante la intro. Después el
+    // grafo queda estático y solo se animan unos pocos "paquetes" (círculos).
+    let settled = false;
+    function placeNodes(k) {
       const cx = W / 2,
         cy = H / 2;
       model.nodes.forEach((n) => {
-        const wob = fxOn() ? n.amp : 0;
-        n.x = cx + (n.hx - cx) * k + Math.sin(t * n.speed + n.phase) * wob;
-        n.y = cy + (n.hy - cy) * k + Math.cos(t * n.speed * 0.8 + n.phase) * wob;
+        n.x = cx + (n.hx - cx) * k;
+        n.y = cy + (n.hy - cy) * k;
         n.el.setAttribute("transform", `translate(${n.x.toFixed(1)},${n.y.toFixed(1)})`);
         n.el.style.opacity = n.type === "core" ? 1 : Math.min(1, k * 1.4);
       });
@@ -461,22 +459,37 @@
         e.el.setAttribute("x2", e.b.x.toFixed(1));
         e.el.setAttribute("y2", e.b.y.toFixed(1));
       });
+    }
+    let lastPacket = 0;
+    function draw(now, still) {
+      const moving = fxOn() && !still;
+      if (!fxOn()) intro = 1;
+      if (intro < 1) {
+        if (moving) intro = Math.min(1, intro + 0.025);
+        placeNodes(ease(intro));
+        settled = false;
+      } else if (!settled) {
+        placeNodes(1);
+        settled = true;
+      }
+      if (!moving || intro < 1) {
+        packets.forEach((p) => (p.el.style.opacity = 0));
+        return;
+      }
+      // paquetes a ~30 fps: suficiente para el ojo y la mitad de trabajo
+      const dt = Math.min(100, now - (lastPacket || now - 33));
+      if (dt < 30) return;
+      lastPacket = now;
       packets.forEach((p, i) => {
-        if (!moving || intro < 1) {
-          p.el.style.opacity = 0;
-          return;
-        }
-        p.t += 16.7 / p.dur;
+        p.t += dt / p.dur;
         if (p.t >= 1) {
           packets[i] = newPacket(p.el, p.to);
           return;
         }
         const x = p.from.x + (p.to.x - p.from.x) * p.t;
         const y = p.from.y + (p.to.y - p.from.y) * p.t;
-        p.el.setAttribute("cx", x.toFixed(1));
-        p.el.setAttribute("cy", y.toFixed(1));
-        p.el.style.opacity = Math.sin(p.t * Math.PI);
-        p.el.setAttribute("class", `g-packet tone-${p.to.tone}`);
+        p.el.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+        p.el.style.opacity = Math.sin(p.t * Math.PI).toFixed(2);
       });
     }
 
@@ -560,10 +573,20 @@
         n.classList.toggle("on", cr.top + 46 < focusY);
       });
     };
+    // solo calcular mientras la sección está cerca de la pantalla
+    let near = true;
+    if ("IntersectionObserver" in window)
+      new IntersectionObserver(
+        (entries) => {
+          near = entries[0].isIntersecting;
+          if (near) update();
+        },
+        { rootMargin: "200px 0px" },
+      ).observe(list);
     addEventListener(
       "scroll",
       () => {
-        if (!ticking) {
+        if (near && !ticking) {
           ticking = true;
           requestAnimationFrame(update);
         }
@@ -575,58 +598,114 @@
   }
 
   /* =========================================================
-     4. CV IMPRIMIBLE / PDF
+     5. ATAJOS DE TECLADO (1-7 capítulos, ? ayuda)
      ========================================================= */
-  function setupPrint() {
-    const openDetails = [];
-    const spaces = [];
-    addEventListener("beforeprint", () => {
-      root.classList.add("is-printing");
-      // en impresión los <br> de los títulos se ocultan: dejar un espacio
-      document.querySelectorAll("h2 br, .journey h3 br").forEach((br) => {
-        const t = document.createTextNode(" ");
-        br.before(t);
-        spaces.push(t);
-      });
-      document.querySelectorAll("details:not([open])").forEach((d) => {
-        d.open = true;
-        openDetails.push(d);
-      });
-    });
-    addEventListener("afterprint", () => {
-      root.classList.remove("is-printing");
-      openDetails.splice(0).forEach((d) => (d.open = false));
-      spaces.splice(0).forEach((t) => t.remove());
-    });
-    SM.printCV = () => {
-      toast({
-        icon: "⎙",
-        kicker: "GENERANDO CV",
-        title: "Versión imprimible",
-        text: "Elige «Guardar como PDF» en el diálogo",
-        tone: "cyan",
-      });
-      setTimeout(() => print(), 700);
+  function setupShortcuts() {
+    const chapters = [...document.querySelectorAll("[data-chapter]")];
+    const names = ["Experiencia", "Proyectos", "Sobre mí", "Formación", "Logros", "Conocimientos", "Contacto"];
+    const hud = document.createElement("div");
+    hud.className = "keys-hud";
+    hud.setAttribute("role", "dialog");
+    hud.setAttribute("aria-label", "Atajos de teclado");
+    if ("popover" in HTMLElement.prototype) hud.popover = "auto";
+    else hud.hidden = true;
+    hud.innerHTML = `
+      <div class="keys-head"><span>ATAJOS DE TECLADO</span><button type="button" class="keys-close" aria-label="Cerrar">ESC ×</button></div>
+      <ul>
+        ${chapters.map((c, i) => `<li><kbd>${i + 1}</kbd><span>${names[i] || c.id}</span></li>`).join("")}
+        <li><kbd>º</kbd><span>Abrir la terminal</span></li>
+        <li><kbd>?</kbd><span>Mostrar / ocultar esta ayuda</span></li>
+        <li class="keys-secret"><kbd>•••</kbd><span>Hay un código secreto… 👀</span></li>
+      </ul>`;
+    document.body.append(hud);
+    const toggle = (force) => {
+      const open = hud.popover ? hud.matches(":popover-open") : !hud.hidden;
+      const want = typeof force === "boolean" ? force : !open;
+      if (hud.popover) want ? hud.showPopover() : hud.hidePopover();
+      else hud.hidden = !want;
     };
-    // botón en la sección de contacto
-    const contactCol = document.querySelector(".contact-grid > div");
-    const primary = contactCol?.querySelector(".button-primary");
-    if (primary) {
-      const row = document.createElement("div");
-      row.className = "contact-actions";
-      primary.replaceWith(row);
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "cv-button";
-      btn.innerHTML =
-        '<span aria-hidden="true">⎙</span> Descargar CV en PDF';
-      btn.addEventListener("click", SM.printCV);
-      row.append(primary, btn);
+    hud.querySelector(".keys-close").addEventListener("click", () => toggle(false));
+    SM.toggleKeys = toggle;
+    addEventListener("keydown", (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.target.closest?.("input, textarea, select, [contenteditable='true']")) return;
+      if (document.querySelector("dialog[open]")) return;
+      if (e.key === "?") {
+        e.preventDefault();
+        toggle();
+        return;
+      }
+      const n = Number(e.key);
+      if (n >= 1 && n <= chapters.length) {
+        e.preventDefault();
+        toggle(false);
+        chapters[n - 1].scrollIntoView({ behavior: fxOn() ? "smooth" : "auto" });
+      }
+    });
+  }
+
+  /* =========================================================
+     6. DETALLES: pestaña, email copiado, sello, footer
+     ========================================================= */
+  function setupDetails() {
+    // Título de la pestaña cuando el visitante se va a otra
+    const title = document.title;
+    document.addEventListener("visibilitychange", () => {
+      document.title = document.hidden ? "⚠ Conexión perdida… vuelve 👀" : title;
+    });
+
+    // Aviso al copiar el email
+    document.querySelector(".copy-email")?.addEventListener("click", () =>
+      setTimeout(() => {
+        const ok = /copiado/i.test(document.querySelector(".copy-status")?.textContent || "");
+        if (ok)
+          toast({
+            icon: "⧉",
+            kicker: "PORTAPAPELES",
+            title: "Email copiado",
+            text: "saulmartin.snz@gmail.com · ¡hablamos!",
+            tone: "cyan",
+          });
+      }, 250),
+    );
+
+    // Sello "ACREDITADO" en las credenciales
+    const metas = document.querySelectorAll(".credential-card .credential-meta");
+    const io =
+      "IntersectionObserver" in window &&
+      new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            io.unobserve(e.target);
+            e.target.querySelector(".cred-stamp")?.classList.add("stamped");
+          }),
+        { threshold: 0.6 },
+      );
+    metas.forEach((m) => {
+      const st = document.createElement("span");
+      st.className = "cred-stamp";
+      st.textContent = "✓ ACREDITADO";
+      m.append(st);
+      if (io && fxOn()) io.observe(m.closest(".credential-card"));
+      else st.classList.add("stamped");
+    });
+
+    // Línea de estado en el footer
+    const footer = document.querySelector(".site-footer");
+    const copy = footer?.querySelector("p");
+    if (copy) {
+      const status = document.createElement("p");
+      status.className = "sys-status mono";
+      status.innerHTML =
+        '<span class="sys-dot" aria-hidden="true"></span> TODOS LOS SISTEMAS ONLINE <span class="sys-sep" aria-hidden="true">·</span> HECHO A MANO EN VALENCIA <button type="button" class="sys-keys">PULSA <kbd>?</kbd> PARA VER ATAJOS</button>';
+      copy.after(status);
+      status.querySelector(".sys-keys").addEventListener("click", () => SM.toggleKeys?.());
     }
   }
 
   /* =========================================================
-     5. MODO RED TEAM
+     4. MODO RED TEAM
      ========================================================= */
   function setupRedTeam() {
     let on = false;
@@ -677,6 +756,7 @@
   /* ---------- arranque ---------- */
   setupGraph();
   setupTimeline();
-  setupPrint();
   setupRedTeam();
+  setupShortcuts();
+  setupDetails();
 })();
