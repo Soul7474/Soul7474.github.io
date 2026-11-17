@@ -1,0 +1,531 @@
+/* ==========================================================
+   SM. // WOW LAYER — efectos visuales extra
+   Intro de arranque, cursor retícula, descifrado de títulos,
+   glitch, holo en credenciales, barridos de escáner y neón.
+   Todo respeta "EFECTOS OFF" y prefers-reduced-motion.
+   ========================================================== */
+
+/* ---------- 0. Cortina previa al arranque (evita parpadeo) ---------- */
+html.boot-pending::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  background: #050810;
+}
+/* La entrada del hero espera a que se abra la persiana */
+html.booting .hero-copy > *,
+html.booting .focus-panel {
+  animation-play-state: paused !important;
+}
+
+/* ---------- 1. Intro de arranque ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483001;
+  display: grid;
+  place-items: center;
+  color: #d8f6f2;
+  font-family: var(--mono, monospace);
+  cursor: pointer;
+}
+.boot-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  background: #050810;
+  transition: transform 0.75s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.boot-half::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, #ffffff06 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, #34edff08 1px, transparent 1px) 0 0 / 60px 60px,
+    linear-gradient(0deg, #34edff08 1px, transparent 1px) 0 0 / 60px 60px;
+}
+.boot-half.top {
+  top: 0;
+  border-bottom: 1px solid transparent;
+}
+.boot-half.bottom {
+  bottom: 0;
+}
+.boot-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--acid, #f1ff28);
+  box-shadow:
+    0 0 18px var(--acid, #f1ff28),
+    0 0 60px #f1ff2899;
+  transform: scaleX(0);
+  opacity: 0;
+  z-index: 2;
+}
+.boot-content {
+  position: relative;
+  z-index: 3;
+  width: min(640px, calc(100vw - 40px));
+  transition:
+    opacity 0.2s,
+    transform 0.3s;
+}
+.boot-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--signal, #34edff);
+  border-bottom: 1px solid #34edff33;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+.boot-log {
+  margin: 0;
+  min-height: 7.2em;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted, #a7b8c9);
+}
+.boot-log div {
+  display: flex;
+  gap: 6px;
+  animation: boot-line 0.18s ease-out both;
+}
+.boot-log .dots {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #ffffff26;
+}
+.boot-log .ok {
+  color: #5dff9b;
+}
+.boot-log .act {
+  color: var(--acid, #f1ff28);
+}
+.boot-name {
+  margin: 22px 0 18px;
+  font-family: var(--poster, "Arial Black", sans-serif);
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(42px, 8.5vw, 74px);
+  line-height: 0.92;
+  color: var(--acid, #f1ff28);
+  text-transform: uppercase;
+  text-shadow:
+    3px 0 #34edff55,
+    -3px 0 #ff468c44;
+}
+.boot-bar {
+  position: relative;
+  height: 6px;
+  border: 1px solid #34edff55;
+  overflow: hidden;
+}
+.boot-bar i {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--acid, #f1ff28) 0 8px,
+    transparent 8px 10px
+  );
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+}
+.boot-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted, #a7b8c9);
+}
+.boot-granted {
+  color: var(--signal, #34edff);
+  opacity: 0;
+  letter-spacing: 4px;
+}
+.boot.is-granted .boot-granted {
+  opacity: 1;
+  animation: boot-granted 0.5s steps(2) 2;
+}
+.boot-skip {
+  position: absolute;
+  z-index: 3;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #a7b8c980;
+}
+.boot.is-out .boot-content,
+.boot.is-out .boot-skip {
+  opacity: 0;
+  transform: scale(0.98);
+}
+.boot.is-out .boot-beam {
+  animation: boot-beam 0.7s ease-out both;
+}
+.boot.is-out .boot-half.top {
+  transform: translateY(-101%);
+  transition-delay: 0.12s;
+}
+.boot.is-out .boot-half.bottom {
+  transform: translateY(101%);
+  transition-delay: 0.12s;
+}
+@keyframes boot-line {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+@keyframes boot-granted {
+  50% {
+    opacity: 0.2;
+  }
+}
+@keyframes boot-beam {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  40% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1) scaleY(0.2);
+  }
+}
+
+/* ---------- 2. Cursor retícula (solo ratón) ---------- */
+html.has-reticle,
+html.has-reticle * {
+  cursor: none !important;
+}
+html.has-reticle input,
+html.has-reticle textarea {
+  cursor: text !important;
+}
+.reticle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2147482000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+  will-change: transform;
+}
+html.has-reticle .reticle.is-on {
+  opacity: 1;
+}
+.reticle-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--acid, #f1ff28);
+  box-shadow: 0 0 10px #f1ff28aa;
+  transform: rotate(45deg);
+}
+.reticle-ring {
+  --c: var(--acid, #f1ff28);
+  --s: 38px;
+  --l: 9px;
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  background:
+    linear-gradient(var(--c) 0 0) 0 0 / var(--l) 1.5px,
+    linear-gradient(var(--c) 0 0) 0 0 / 1.5px var(--l),
+    linear-gradient(var(--c) 0 0) 100% 0 / var(--l) 1.5px,
+    linear-gradient(var(--c) 0 0) 100% 0 / 1.5px var(--l),
+    linear-gradient(var(--c) 0 0) 0 100% / var(--l) 1.5px,
+    linear-gradient(var(--c) 0 0) 0 100% / 1.5px var(--l),
+    linear-gradient(var(--c) 0 0) 100% 100% / var(--l) 1.5px,
+    linear-gradient(var(--c) 0 0) 100% 100% / 1.5px var(--l);
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  transition:
+    width 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s;
+}
+.reticle-label {
+  position: absolute;
+  left: 26px;
+  top: 18px;
+  white-space: nowrap;
+  font-family: var(--mono, monospace);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #a7b8c9;
+  padding: 3px 7px;
+  background: #050810e0;
+  border: 1px solid #ffffff14;
+  transition:
+    left 0.25s,
+    top 0.25s,
+    color 0.2s;
+}
+.reticle.is-hover .reticle-ring {
+  --c: var(--signal, #34edff);
+  --s: 58px;
+  --l: 12px;
+  transform: rotate(90deg);
+  filter: drop-shadow(0 0 6px #34edff88);
+}
+.reticle.is-hover .reticle-dot {
+  background: var(--signal, #34edff);
+  box-shadow: 0 0 12px #34edffcc;
+}
+.reticle.is-hover .reticle-label {
+  left: 36px;
+  top: 26px;
+  color: var(--signal, #34edff);
+}
+.reticle.is-down .reticle-ring {
+  --s: 26px;
+}
+
+/* ---------- 3. Glitch periódico en el nombre ---------- */
+.hero-first-name {
+  position: relative;
+}
+.hero-first-name::before,
+.hero-first-name::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  opacity: 0;
+  text-shadow: none;
+}
+.hero-first-name::before {
+  color: var(--signal, #34edff);
+  transform: translateX(-5px);
+  mix-blend-mode: screen;
+}
+.hero-first-name::after {
+  color: var(--pink, #ff468c);
+  transform: translateX(5px);
+  mix-blend-mode: screen;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js:not(.motion-paused) .hero-first-name::before {
+    animation: wow-glitch 6s 2.6s infinite steps(1);
+  }
+  .js:not(.motion-paused) .hero-first-name::after {
+    animation: wow-glitch 6s 2.68s infinite steps(1) reverse;
+  }
+}
+@keyframes wow-glitch {
+  0%,
+  89%,
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  90% {
+    opacity: 0.9;
+    clip-path: inset(8% 0 70% 0);
+  }
+  92% {
+    opacity: 0.9;
+    clip-path: inset(45% 0 35% 0);
+    transform: translateX(7px);
+  }
+  94% {
+    opacity: 0.9;
+    clip-path: inset(70% 0 6% 0);
+    transform: translateX(-6px);
+  }
+  96% {
+    opacity: 0.8;
+    clip-path: inset(25% 0 58% 0);
+  }
+}
+
+/* ---------- 4. Reloj en vivo ---------- */
+.live-clock {
+  color: var(--signal, #34edff);
+  font-variant-numeric: tabular-nums;
+}
+.live-clock::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  vertical-align: 1px;
+  border-radius: 50%;
+  background: #5dff9b;
+  box-shadow: 0 0 8px #5dff9b;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js:not(.motion-paused) .live-clock::before {
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+}
+@keyframes live-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- 5. Holograma en credenciales y diplomas ---------- */
+.holo {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 32%,
+      #34edff1c 41%,
+      #f1ff2224 47%,
+      #ff468c1c 53%,
+      #b08aff14 60%,
+      transparent 68%
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      #ffffff05 0 1px,
+      transparent 1px 7px
+    );
+  background-size:
+    260% 260%,
+    auto;
+  background-position:
+    var(--holo-x, 50%) var(--holo-y, 50%),
+    0 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.35s;
+}
+.credential-card:hover .holo,
+.recognition-row:hover .holo,
+.recognition-row:focus-visible .holo {
+  opacity: 1;
+}
+.award-preview {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- 6. Barrido de escáner al aparecer ---------- */
+.scan-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  pointer-events: none;
+}
+.scan-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 70px;
+  transform: translateY(-80px);
+  opacity: 0;
+  background: linear-gradient(180deg, transparent, #34edff1a 75%, #34edff33);
+  border-bottom: 1.5px solid var(--signal, #34edff);
+  box-shadow: 0 6px 18px -6px #34edffaa;
+}
+.scan-wrap.go .scan-beam {
+  animation: scan-sweep 1.1s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+.scan-wrap[data-tone="acid"] .scan-beam {
+  background: linear-gradient(180deg, transparent, #f1ff2814 75%, #f1ff282b);
+  border-bottom-color: var(--acid, #f1ff28);
+  box-shadow: 0 6px 18px -6px #f1ff2899;
+}
+.scan-wrap[data-tone="pink"] .scan-beam {
+  background: linear-gradient(180deg, transparent, #ff468c14 75%, #ff468c2b);
+  border-bottom-color: var(--pink, #ff468c);
+  box-shadow: 0 6px 18px -6px #ff468c99;
+}
+@keyframes scan-sweep {
+  0% {
+    opacity: 1;
+    transform: translateY(-80px);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- 7. Neón que se enciende en "¿Hablamos?" ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js:not(.motion-paused)
+    .contact-grid
+    > div.is-visible
+    #contact-title.neon-on {
+    animation:
+      heading-invite 0.8s cubic-bezier(0.22, 1, 0.36, 1) both,
+      neon-ignite 1.6s 0.35s linear both;
+  }
+}
+#contact-title.neon-on {
+  text-shadow:
+    0 0 12px #f1ff2866,
+    0 0 42px #f1ff2833;
+}
+@keyframes neon-ignite {
+  0%,
+  10%,
+  14%,
+  30%,
+  34% {
+    opacity: 0.25;
+    text-shadow: none;
+  }
+  12%,
+  32%,
+  100% {
+    opacity: 1;
+    text-shadow:
+      0 0 12px #f1ff2866,
+      0 0 42px #f1ff2833;
+  }
+}
+
+/* ---------- 8. Botones magnéticos ---------- */
+.magnetic {
+  transition: translate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot,
+  .reticle {
+    display: none !important;
+  }
+  .scan-wrap {
+    display: none;
+  }
+}

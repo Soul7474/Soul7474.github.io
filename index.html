@@ -100,9 +100,29 @@
     <link rel="stylesheet" href="edgerunner-theme.css" />
     <link rel="stylesheet" href="chapter-variations.css" />
     <link rel="stylesheet" href="terminal.css" />
+    <link rel="stylesheet" href="wow.css" />
     <script src="templatemo-prism-scripts.js" defer></script>
     <script src="portfolio-effects.js" defer></script>
     <script src="terminal.js" defer></script>
+    <script src="wow.js" defer></script>
+    <script>
+      /* Intro de arranque: solo la primera visita de la sesión */
+      (function () {
+        try {
+          var d = document.documentElement;
+          if (
+            !sessionStorage.getItem("sm-boot") &&
+            !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+            localStorage.getItem("portfolio-motion") !== "paused"
+          ) {
+            d.classList.add("boot-pending", "booting");
+            setTimeout(function () {
+              d.classList.remove("boot-pending", "booting");
+            }, 4000);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div class="urban-scene" aria-hidden="true">
