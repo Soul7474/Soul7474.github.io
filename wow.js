@@ -229,6 +229,8 @@
       if (el.matches("a[target='_blank']")) return "[ ABRIR ENLACE ]";
       if (el.matches(".radar-node")) return "[ ESCANEAR ÁREA ]";
       if (el.matches(".term-launch")) return "[ ABRIR TERMINAL ]";
+      if (el.matches(".cv-button")) return "[ GENERAR PDF ]";
+      if (el.matches(".g-node")) return "[ ANALIZAR NODO ]";
       if (el.matches("summary")) return "[ DESPLEGAR ]";
       if (el.matches("a[href^='#']")) return "[ IR ]";
       return "[ CLICK ]";
@@ -244,7 +246,7 @@
         y = e.clientY;
         r.classList.add("is-on");
         const hit = e.target.closest?.(
-          "a, button, summary, label, [role='button'], .recognition-row",
+          "a, button, summary, label, [role='button'], .recognition-row, .g-node",
         );
         r.classList.toggle("is-hover", !!hit);
         hoverText = hit ? hoverLabel(hit) : "";
@@ -261,7 +263,7 @@
         scrollRaf = requestAnimationFrame(() => {
           scrollRaf = 0;
           const el = document.elementFromPoint(x, y);
-          const hit = el?.closest?.("a, button, summary, label, [role='button'], .recognition-row");
+          const hit = el?.closest?.("a, button, summary, label, [role='button'], .recognition-row, .g-node");
           r.classList.toggle("is-hover", !!hit);
           hoverText = hit ? hoverLabel(hit) : "";
           if (!raf) raf = requestAnimationFrame(loop);
@@ -351,7 +353,7 @@
     const loc = document.querySelector(".hero-location");
     if (!loc) return;
     const div = document.createElement("span");
-    div.className = "location-divider";
+    div.className = "location-divider clock-divider";
     div.setAttribute("aria-hidden", "true");
     div.textContent = "/";
     const clock = document.createElement("span");
