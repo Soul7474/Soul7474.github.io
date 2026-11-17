@@ -1,7 +1,7 @@
 /* Original anime-city art direction, inspired by Cyberpunk: Edgerunners. */
 @font-face {
   font-family: "Barlow Condensed";
-  src: url("fonts/BarlowCondensed-ExtraBoldItalic.ttf") format("truetype");
+  src: url("fonts/BarlowCondensed-ExtraBoldItalic.woff2") format("woff2");
   font-weight: 800;
   font-style: italic;
   font-display: swap;
@@ -1015,7 +1015,7 @@ h2 {
 .zone-city {
   position: absolute;
   inset: -8%;
-  background-image: url("images/backgrounds/after-hours-city.png");
+  background-image: url("images/backgrounds/after-hours-city.webp");
   background-size: cover;
   background-position: 70% 50%;
   opacity: 0.38;
@@ -1198,7 +1198,7 @@ h2 {
   z-index: -2;
   background-image:
     linear-gradient(90deg, #03111ac7, #03111a1a),
-    url("images/backgrounds/after-hours-city.png");
+    url("images/backgrounds/after-hours-city.webp");
   background-size: cover;
   background-position: 65% 60%;
   opacity: 0.62;
