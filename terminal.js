@@ -291,16 +291,6 @@
       hidden: true,
       run: () => print('<span class="t-pink">rm: operación no permitida. Los backups están en Acronis. 😎</span>'),
     },
-    cv: {
-      desc: "descarga mi CV en PDF",
-      run: () => {
-        print('<span class="t-ok">→ compilando CV desde el portfolio…</span>');
-        setTimeout(() => {
-          close();
-          window.SM?.printCV ? window.SM.printCV() : window.print();
-        }, reduced.matches ? 0 : 500);
-      },
-    },
     redteam: {
       desc: "",
       hidden: true,

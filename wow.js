@@ -229,8 +229,9 @@
       if (el.matches("a[target='_blank']")) return "[ ABRIR ENLACE ]";
       if (el.matches(".radar-node")) return "[ ESCANEAR ÁREA ]";
       if (el.matches(".term-launch")) return "[ ABRIR TERMINAL ]";
-      if (el.matches(".cv-button")) return "[ GENERAR PDF ]";
       if (el.matches(".g-node")) return "[ ANALIZAR NODO ]";
+      if (el.matches(".copy-email")) return "[ COPIAR ]";
+      if (el.matches(".sys-keys")) return "[ VER ATAJOS ]";
       if (el.matches("summary")) return "[ DESPLEGAR ]";
       if (el.matches("a[href^='#']")) return "[ IR ]";
       return "[ CLICK ]";
